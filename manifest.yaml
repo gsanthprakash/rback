@@ -1,8 +1,3 @@
-apiVersion: apps/v1
-kind: roboshop
-metadata:
-  name: roboshop
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
