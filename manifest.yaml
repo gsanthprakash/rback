@@ -14,11 +14,11 @@ metadata:
   # "namespace" omitted since ClusterRoles are not namespaced
   name: roboshop-cluster-reader
 rules:
-- apiGroups: [""]
+- apiGroups: ["v1","apps/v1"]
   #
   # at the HTTP level, the name of the resource for accessing Secret
   # objects is "secrets"
-  resources: ["secrets"]
+  resources: ["secrets","nodes","namespace",""]
   verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
