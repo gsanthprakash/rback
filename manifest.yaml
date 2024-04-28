@@ -20,10 +20,7 @@ metadata:
   name: roboshop-cluster-reader
 rules:
 - apiGroups: ["v1","apps/v1",""]
-  #
-  # at the HTTP level, the name of the resource for accessing Secret
-  # objects is "secrets"
-  resources: ["secrets","nodes","namespace",""]
+  resources: ["secrets","nodes","namespaces","persistentvolumes"]
   verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -34,7 +31,7 @@ metadata:
 subjects:
 # You can specify more than one "subject"
 - kind: User
-  name: rameh # "name" is case sensitive
+  name: ramesh # "name" is case sensitive
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
@@ -43,17 +40,18 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
 kind: ClusterRoleBinding
 metadata:
   name: roboshop-cluster-reader
 subjects:
-- kind: user
-  name: ramesh
-  apiGroup: "rbac.authorization.k8s.io"
+- kind: User
+  name: ramesh # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
 roleRef:
-  kind: Role
-  name: roboshop-admin
-  apiGroup: "rbac.authorization.k8s.io"
+  kind: ClusterRole
+  name: roboshop-cluster-reader
+  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
 data:
